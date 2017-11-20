@@ -267,6 +267,78 @@ ReplaceTool.prototype.drag_action = function( cc, x, y ){
 		log.trace("replace drag");
 };
 
+
+function SaveTool() {
+  this.name= "Save Tool";
+  this.save_once = true;
+};
+
+SaveTool.prototype.action = function( cc, x, y ){
+  if( !this.save_once )
+    return;
+
+  this.save_once = false;
+  
+  localStorage.currentImage = JSON.stringify(cc.sketch.data);
+  var img = cc.sketch;
+
+  console.log(img.width, img.height);
+
+  var p = new window.PNGlib(img.width, img.height, 256);
+  background = p.color(0,0,0,0);
+  for( var i = 0; i < img.width; i++){
+    for( var j = 0; j < img.height; j++){
+      var pix = img.getPixel(i, j);
+      if(pix == "#xxx") continue;
+      var r = "0x"+pix[1]+"0";
+      var g = "0x"+pix[2]+"0";
+      var b = "0x"+pix[3]+"0";
+      
+      p.buffer[p.index(i,j)] = p.color(r, g, b);
+    }
+  }
+
+  document.write('<img src="data:image/png;base64,'+p.getBase64()+'">');
+  document.write('<p>Right Click Save As to save, Reload to continue</p>');
+  //document.write(p.getDump());
+
+  var idata = cc.context.getImageData(cc.origin_x, cc.origin_y,
+                                      img.width*cc.zoom, img.height*cc.zoom);
+
+  var new_can = document.createElement('CANVAS');
+  new_can.width = img.width*cc.zoom;
+  new_can.height = img.height*cc.zoom;
+  new_can.getContext("2d").putImageData(idata, 0, 0);
+  document.body.append(new_can);
+  
+  
+  //upload to s3
+
+  var filename = "image-" + new Date().getTime() + ".png";
+  var req = new XMLHttpRequest(),
+      method = 'PUT',
+      url = "http://zinke-cscd567-images.s3.amazonaws.com/" + filename;
+
+  req.onreadystatechange = function() {
+    if(req.readyState === XMLHttpRequest.DONE){
+      console.log(req.responseText);
+    }
+  }
+
+  
+  req.open(method, url, true);
+  req.setRequestHeader('Content-Type', 'image/png');
+  req.setRequestHeader('Access-Control-Allow-Origin', '*');
+  req.setRequestHeader('x-amz-grant-full-control',
+                       'id="bb7a49b3193531598942785a8b1ad635bfe8c99313663293348e3d5b88213131"');
+  new_can.toBlob(function(blob) {
+    req.send(blob);
+  }, "image/png");
+
+  
+};
+
+SaveTool.prototype.drag_action = function () {};
 //end tools
 
 //tool container
@@ -276,7 +348,7 @@ function ToolChooser(){
     this.tools.push(new SquareTool(2));
     this.tools.push(new FillTool());
     this.tools.push(new ReplaceTool());
-
+  this.tools.push(new SaveTool());
 		log.trace("toolbox has " + this.tools.length + " tools");
 
     this.currentTool = this.tools[0];
@@ -452,7 +524,7 @@ function CanvasController(){
     this.context = this.view.getContext("2d");
     this.control = document.getElementById("workspace_ctrl");
 		
-		this.view.width = window.innerWidth - 168;
+		this.view.width = window.innerWidth - 200;
 		this.view.height = window.innerHeight;
 
     //canvas background, origin offsets, zoom level

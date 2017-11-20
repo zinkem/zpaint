@@ -1,7 +1,7 @@
 body {
       color: white;
       background-color: #000;
-      font-family: "Arial";
+      font-family: monospace;
       border: 0px;
       margin: 0px;
       padding: 0px;
@@ -11,7 +11,7 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	right: 500px;
+	right: 100px;
 	bottom: 0px;
 	z-index: 0;
 }
@@ -34,11 +34,12 @@ body {
 #pallete {
 		position:absolute;
 		right: 0px;
+    width: 180px;
 }
 
 #color_row {
 
-	width:168;
+	width:168px;
 }
 
 #color_swatch_medium {
@@ -79,12 +80,12 @@ body {
 		position: absolute;
 		right: 55px;
 		top: 242px;
-		width: 100px;
+		width: 130px;
 		cursor: crosshair;
 }
 
 #help {
-		width: 160px;
+		width: 190px;
 		position: absolute;
 		bottom:0px;
 		right:0px;
