@@ -1,0 +1,112 @@
+body {
+      color: white;
+      background-color: #000;
+      font-family: "Arial";
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+}
+
+#workspace_view {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 500px;
+	bottom: 0px;
+	z-index: 0;
+}
+
+#workspace_view:hover {
+	cursor: crosshair;
+}
+#workspace_view:active {
+	cursor: crosshair;
+}
+
+#workspace_ctrl {
+	background-color: #888;
+	color: #555;
+	position: absolute;
+	bottom: 0px;
+	height: 20px;
+}
+
+#pallete {
+		position:absolute;
+		right: 0px;
+}
+
+#color_row {
+
+	width:168;
+}
+
+#color_swatch_medium {
+	width: 21px;
+	height: 21px;
+	float: left;
+}
+
+#color_swatch_medium:hover {
+		border-color: white;
+		border-width: 1px;
+		border-style: solid;
+		width: 19px;
+		height: 19px;
+		float: left;
+}
+
+.color_swatch_large {
+	width: 34px;
+	height: 34px;
+}
+
+.selectedColor {
+		width: 32px;
+		height: 32px;
+		border-style: solid;
+		border-width: 1;
+		boder-color: white;
+}
+
+#pallete_history {
+		position: absolute;
+		right:0px;
+		top: 242px;
+}
+
+#tools {
+		position: absolute;
+		right: 55px;
+		top: 242px;
+		width: 100px;
+		cursor: crosshair;
+}
+
+#help {
+		width: 160px;
+		position: absolute;
+		bottom:0px;
+		right:0px;
+		font-size:12px;
+}
+
+.selectedtool {
+		background-color: #555;
+}
+
+.tool {
+		background-color: #aaa;
+}
+
+.tool:hover {
+		background-color: #fff;
+		color: #aaa;
+}
+
+.cssButton {
+	width: 200px;
+	height: 100px;
+	background-color: #66f;
+	color: #aa0;
+}
