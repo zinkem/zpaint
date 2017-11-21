@@ -2,7 +2,9 @@
   <head>
     <title>zinke paint gallery</title>
   </head>
-  <body>
+  <body bgcolor='black'
+text='white'
+  style='font-family: monospace;'>
   </body>
   <script>
   var req = new XMLHttpRequest(),
@@ -21,13 +23,17 @@ req.onreadystatechange = function() {
   for( var i in keys ){
     var img_name = keys[i].innerHTML;
     if( img_name ) {
-      
+      console.log(img_name);
+      console.log(img_name.replace('resized-', ''));
       //page += img_name+'<br/>';
       var link = "https://s3.us-east-2.amazonaws.com/zinke-cscd567-imagesresized/"+img_name
       //page+= link+'<br/>';
-      page += '<img src="'+link+'"/>';
+      page += '<a href="https://s3.us-east-2.amazonaws.com/zinke-cscd567-images/'+
+        img_name.replace('resized-', '')+'">'
+      page += '<img src="'+link+'" border=0/></a>';
     }
   }
+  page+= '<br/>Click an image to open full size<br/><a href="index.html">Editor</a>'
   document.body.innerHTML = page;
 }
 
