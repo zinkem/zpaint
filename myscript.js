@@ -300,6 +300,7 @@ SaveTool.prototype.action = function( cc, x, y ){
 
   document.write('<img src="data:image/png;base64,'+p.getBase64()+'">');
   document.write('<p>Right Click Save As to save, Reload to continue</p>');
+  document.write('<a href="thumblist.html">See your work in the Gallery</a><br/>');
   //document.write(p.getDump());
 
   var idata = cc.context.getImageData(cc.origin_x, cc.origin_y,
@@ -329,8 +330,12 @@ SaveTool.prototype.action = function( cc, x, y ){
   req.open(method, url, true);
   req.setRequestHeader('Content-Type', 'image/png');
   req.setRequestHeader('Access-Control-Allow-Origin', '*');
+/*
   req.setRequestHeader('x-amz-grant-full-control',
                        'id="bb7a49b3193531598942785a8b1ad635bfe8c99313663293348e3d5b88213131"');
+*/
+  req.setRequestHeader('x-amz-acl',
+                       'bucket-owner-full-control');
   new_can.toBlob(function(blob) {
     req.send(blob);
   }, "image/png");

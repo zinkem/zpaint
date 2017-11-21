@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>zinke paint gallery</title>
+  </head>
+  <body>
+  </body>
+  <script>
+  var req = new XMLHttpRequest(),
+method = 'GET',
+url = 'https://s3.us-east-2.amazonaws.com/zinke-cscd567-imagesresized/'
+
+req.onreadystatechange = function() {
+  if(req.readyState === XMLHttpRequest.DONE){
+    console.log(req.responseText);
+  }
+  
+  var parser = new DOMParser();
+  xmlDoc = parser.parseFromString(req.responseText, 'text/xml');
+  keys = xmlDoc.getElementsByTagName('Key');
+  var page = '';
+  for( var i in keys ){
+    var img_name = keys[i].innerHTML;
+    if( img_name ) {
+      
+      //page += img_name+'<br/>';
+      var link = "https://s3.us-east-2.amazonaws.com/zinke-cscd567-imagesresized/"+img_name
+      //page+= link+'<br/>';
+      page += '<img src="'+link+'"/>';
+    }
+  }
+  document.body.innerHTML = page;
+}
+
+
+req.open(method, url, true);
+req.send();
+
+  
+  </script>
+
+  
+</html>
